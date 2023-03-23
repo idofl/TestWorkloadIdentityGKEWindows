@@ -24,8 +24,8 @@ namespace WebApplication7.Controllers
                 }
 
                 ILog log = LogManager.GetLogger(typeof(LoggerController));
-                log.Info("An exciting log entry!");
-
+                log.Info("An exciting log entry! 1.0");
+                log.Info(credentials.GetType().FullName);
                 ServiceAccountCredential saCredentials = credentials.UnderlyingCredential as ServiceAccountCredential;
                 if (saCredentials == null)
                 {
