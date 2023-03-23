@@ -1,7 +1,7 @@
 FROM mcr.microsoft.com/dotnet/framework/sdk:4.8-windowsservercore-ltsc2019 AS build
 WORKDIR /source
-COPY WebApplication7.sln /source
-COPY WebApplication7 /source/WebApplication7
+COPY ./WebApplication7.sln /source
+COPY ./WebApplication7 /source/WebApplication7
 
 RUN msbuild WebApplication7.sln /t:restore /p:RestorePackagesConfig=true
 RUN msbuild /p:Configuration=Release /t:WebPublish /p:WebPublishMethod=FileSystem /p:publishUrl=C:\Deploy
