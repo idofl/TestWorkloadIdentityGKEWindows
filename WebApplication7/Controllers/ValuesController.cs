@@ -14,12 +14,30 @@ namespace WebApplication7.Controllers
         // GET api/logger
         public string Get()
         {
-            var credentials = GoogleCredential.GetApplicationDefault();
+            try
+            {
+                var credentials = GoogleCredential.GetApplicationDefault();
 
-            ILog log = LogManager.GetLogger(typeof(LoggerController));
-            log.Info("An exciting log entry!");
-            //LogManager.Flush(5000);
-            return "Wrote a log record using SA " + (credentials.UnderlyingCredential as ServiceAccountCredential).Id;
+                if (credentials == null)
+                {
+                    return "error, credentials are null";
+                }
+
+                ILog log = LogManager.GetLogger(typeof(LoggerController));
+                log.Info("An exciting log entry!");
+
+                ServiceAccountCredential saCredentials = credentials.UnderlyingCredential as ServiceAccountCredential;
+                if (saCredentials == null)
+                {
+                    return "Error: credentials are not null, they are: " + credentials.UnderlyingCredential.GetType().FullName;
+                }
+                return "Wrote a log record using SA " + saCredentials.Id;
+                //LogManager.Flush(5000);
+            }
+            catch (Exception ex)
+            {
+                return "Unknown error: " + ex.ToString();
+            }    
         }
     }
 }
